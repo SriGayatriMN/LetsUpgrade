@@ -75,40 +75,40 @@ Ans: Both A and B
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 10.What does a Data Type in Java refers to?
 What does a Data Type in Java refers to?  
-A)	The place where data is stored 
-B)	The technique how data is retreived 
+A)The place where data is stored 
+B)The technique how data is retreived 
 C) The type or variety of data being handled for reading and writing 
 D) None of the above 
 
 Ans: The type or variety of data being handled for reading and writing
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
 11.which among the following is not a Data Type in Java?
-A)	short 
-B)	int 
+A) short 
+B) int 
 C) long double 
 D) double 
  
 Ans:long double
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 12.Which is the data type that is not recommended for numeric applications in Java? 
-A) byte 
-B)	float 
-C)	int 
-D)	long 
+A)byte 
+B)float 
+C)int 
+D)long 
 
 Ans: byte
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 13.What is the size of a FLOAT floating point number in Java? 
 A) 2 bytes 
 B) 4 bytes 
-C)	6 bytes 
-D)	8 bytes 
+C) 6 bytes 
+D)8 bytes 
 
 Ans: 4 bytes
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 14.What is the abbreviation of ASCII?
-A)	American Standard Characters for Information Interchange 
-B)	Australian Standard Code for Information Interchange 
+A) American Standard Characters for Information Interchange 
+B) Australian Standard Code for Information Interchange 
 C) American Standard Code for Information Interchange 
 D) None of the above  
 
@@ -171,9 +171,9 @@ System.out.print(var1 > var2);
 }
 a) true 
 b) false 
-c)	0 
-d)	1 
-e)	error 
+c) 0 
+d) 1 
+e) error 
 
 Ans: false
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
