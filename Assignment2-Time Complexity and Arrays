@@ -1,0 +1,269 @@
+Array Introduction:
+
+1.Rotate Array:
+
+import java.util.*;
+class Solution {
+    public void rotate(int[] nums, int k) {
+        int len = nums.length;
+        k = k % len;
+        int rotate = len-k;
+        int ptr1 = 0;
+        for(int ptr2 =  rotate; ptr2 < len ; ptr2++){
+            int ptr3 = ptr2 -1;
+            int val = nums[ptr2];
+             for(int ptr4 = ptr2 ; ptr4 > ptr1 ; ptr4--){
+                nums[ptr4] = nums[ptr4-1];
+            }
+            nums[ptr1] = val;
+            ptr1++;
+        }
+        System.out.println(Arrays.toString(nums));
+       
+        
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2.Removing maximum and minimum in Array
+import java.util.*;
+class Solution {
+    public int minimumDeletions(int[] nums) {
+        int min_index = 0;
+        int max_index = 0;
+        int min = nums[0];
+        int max = nums[0];
+        int len = nums.length;
+        if(len == 1){
+            return len;
+        }
+        else{
+            for(int i = 1 ; i < len ; i++){
+                if(min > nums[i]){
+                    min = nums[i];
+                    min_index = i;
+                }
+            }
+            for(int i = 1 ; i < len ; i++){
+                if(max < nums[i]){
+                    max = nums[i];
+                    max_index = i;
+                }
+            }
+            int front = Math.max(min_index+1,max_index+1);
+            int end = Math.max(len-min_index,len-max_index);
+            int frontAndEnd = Math.min(min_index+1,len-min_index) + Math.min(max_index+1,len-max_index);
+            return Math.min(Math.min(front,end),frontAndEnd);
+        }
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3.Reverse String
+class Solution {
+    public void reverseString(char[] s) {
+        int len = s.length;
+        for(int i = 0 ; i < len/2 ; i++){
+            int j = len-i-1;
+            char temp = s[i];
+            s[i] = s[j];
+            s[j] = temp;
+        }
+        System.out.println(Arrays.toString(s));
+        
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+4.You are given an integer T (number of test cases). You are given array A and an integer B for each test case. You have to tell whether B is present in array A or not.
+import java.util.Scanner;
+public class NumberPresentInArray {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int present = 0;
+        int T = sc.nextInt();
+        int i = 0;
+        while(i < T){
+            int len = sc.nextInt();
+            int[] arr = new int[len];
+            for(int j = 0 ; j < len ;j++){
+                arr[j] = sc.nextInt();
+            }
+            int number = sc.nextInt();
+            for(int k = 0; k < len ; k++){
+                if(arr[k] == number){
+                    present = 1;
+                    break;
+                }
+            }
+            if(present == 1){
+                System.out.println("1");
+            }
+            else{
+                System.out.println("0");
+            }
+            i++;
+        }
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5.You are given an integer array A. You have to find the second largest element/value in the array or report that no such element exists.
+import java.util.Scanner;
+public class SecondLargestElement {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int[] arr = {2,1,2};
+        int len = arr.length;
+        int flarg = -1;
+        int slarg = -1;
+        if(len < 2){
+            System.out.println("-1");
+        }
+        else{
+            for(int i = 0; i < len; i++){
+                if(arr[i] > flarg){
+                    slarg = flarg;
+                    flarg = arr[i];
+                }
+                else if(arr[i] > slarg && arr[i] != flarg){
+                    slarg = arr[i];
+                }
+            }
+            System.out.println(slarg);
+        }
+
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+6.You are given an array of integers A of size N.Return the difference between the maximum among all even numbers of A and the minimum among all odd numbers in A.
+public class DifferenceBwNums {
+    public static void main(String[] args) {
+        int[] arr = {0,2,9};
+        int maxeven = Integer.MIN_VALUE;
+        int minodd = Integer.MAX_VALUE;
+        for(int i = 0; i < arr.length; i++){
+            if(arr[i] % 2 == 0){
+                maxeven = Math.max(maxeven,arr[i]);
+            }
+            else{
+                minodd = Math.min(minodd,arr[i]);
+            }
+        }
+        System.out.println(maxeven-minodd);
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+7.You are given an integer T denoting the number of test cases. For each test case, you are given an integer array A.
+
+You have to print the odd and even elements of array A in 2 separate lines.
+import java.util.Scanner;
+public class EvenOddNums {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int T = sc.nextInt();
+        for(int i = 0; i < T; i++){
+            int len = sc.nextInt();
+            int[] arr = new int[len];
+            for(int j = 0 ; j < len; j++){
+                arr[j] = sc.nextInt();
+            }
+            for(int k = 0; k < len ; k++){
+                if(arr[k] % 2 != 0){
+                    System.out.print(arr[k]+" ");
+                }
+            }
+            System.out.println();
+            for(int p = 0; p < len ; p++){
+                if(arr[p] % 2 == 0){
+                    System.out.print(arr[p]+" ");
+                }
+            }
+        }
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+8.Multiple leftRotations of the array
+import java.util.*;
+public class MultipleRotations {
+    public static void main(String[] args) {
+        int[] A = {5,7,100,11};
+        int[] B = {1};
+        for(int i = 0 ; i < B.length ; i++){
+            int rotateTimes = B[i];
+            int n = A.length;
+            int[] rotatedArray = new int[n];
+            int nk = n - rotateTimes;
+            for(int j = 0 ; j < nk; j++){
+                rotatedArray[j] = A[rotateTimes+j];
+            }
+            int p = 0;
+            for(int k = nk ; k < n; k++) {
+                rotatedArray[k] = A[p++];
+
+            }
+            System.out.println(Arrays.toString(rotatedArray));
+        }
+
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+9.Given an integer array A of size N and an integer B, you have to print the same array after rotating it B times towards the right.
+import java.util.*;
+public class RightRotate {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for(int i = 0 ; i < n ; i++){
+            arr[i] = sc.nextInt();
+        }
+        int rotateTimes = sc.nextInt();
+        int[] rotatedArray = new int[n];
+        int nk = n - rotateTimes;
+        for(int j = 0 ; j < rotateTimes; j++){
+            rotatedArray[j] = arr[nk+j];
+        }
+        for(int k = nk ; k < n; k++){
+            rotatedArray[k] = arr[k-nk];
+        }
+        System.out.println(Arrays.toString(rotatedArray));
+
+    }
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+10.Given an array A and an integer B. A pair(i, j) in the array is a good pair if i != j and (A[i] + A[j] == B). Check if any good pair exist or not.
+public class GoodPair {
+    public static void main(String[] args) {
+        int[] arr = {1,2,2};
+        int b = 4;
+        int len = arr.length;
+        int present = 0;
+        for(int i = 0; i < len ; i++){
+            int val = b - arr[i];
+            for(int j = i+1; j < len ; j++){
+                if(arr[j] == val){
+                    present = 1;
+                    break;
+                }
+            }
+        }
+        System.out.println(present);
+
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+11.Number of Good pairs:
+class Solution {
+    public int numIdenticalPairs(int[] nums) {
+        int len = nums.length;
+        int count = 0;
+        for(int i = 0;  i < len; i++){
+            for(int j = i+1 ; j < len ; j++){
+                if(nums[i] == nums[j] && i < j){
+                    count += 1;
+                }
+            }
+        }
+        return count;
+    }
+}
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
