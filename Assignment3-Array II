@@ -1,0 +1,165 @@
+Array prefix:
+
+1.Equilibrium index element - balance array
+
+public class BalanceArray {
+    public static int solve(int[] A) {
+            int len = A.length;
+            int[] pfeven = new int[len];
+            int[] pfodd = new int[len];
+            pfeven[0] = A[0];
+            pfodd[0] = 0;
+            int totaleven = 0;
+            int totalodd = 0;
+            int count = 0;
+            for(int i = 1; i < len; i++){
+                if(i%2 != 0){
+                    pfeven[i] = pfeven[i-1];
+                }
+                else{
+                    pfeven[i] = pfeven[i-1]+A[i];
+                }
+            }
+            for(int i = 1; i < len; i++){
+                if(i%2 != 0){
+                    pfodd[i] = pfodd[i-1] + A[i];
+                }
+                else{
+                    pfodd[i] = pfodd[i-1];
+                }
+            }
+            for(int i = 0; i < len; i++){
+                if(i == 0){
+                     totaleven = pfodd[len-1]-pfodd[i];
+                     totalodd = pfeven[len-1]-pfeven[i];
+                }
+                else{
+                    totaleven = pfeven[i-1]+ pfodd[len-1]-pfodd[i];
+                    totalodd = pfodd[i-1]+ pfeven[len-1]-pfeven[i];
+                }
+                if(totaleven == totalodd){
+                    count += 1;
+
+                }
+            }
+            return count;
+
+    }
+
+    public static void main(String[] args) {
+        System.out.println(solve(new int[]{5,5,2,5,8}));
+
+    }
+}
+--------------------------------------------------------------------------------------------------
+2.Pick from both the sides:
+
+public class PickFromBothSides {
+        public static void main(String[] args) {
+            int[] arr = {5,-2,3,1,2};
+            int n = 3;
+            int len = arr.length;
+            int max = Integer.MIN_VALUE;
+            for(int i = 0 ; i < len; i++){
+                int sum = 0;
+                for(int j = i; j < i + n; j++){
+                    sum += arr[j%len];
+                }
+                max = Math.max(max,sum);
+            }
+            System.out.println(max);
+        }
+}
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3. Minimum operation to make an array equal:
+
+class Solution {
+    public int minOperations(int n) {
+        int minop = 0;
+        for(int i = 0 ; i < n/2; i ++){
+            minop += (n - (2*i +1));
+        }
+        return minop;
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+4. Range Sum Query:
+
+class NumArray {
+    int[] psum;
+    public NumArray(int[] nums) {
+        int len = nums.length;
+        psum = new int[len];
+        psum[0] = nums[0];
+        for(int i = 1 ; i < len ; i++){
+            psum[i] = psum[i-1]+nums[i];
+        }
+
+    }
+    
+    public int sumRange(int left, int right) {
+        if(left == 0){
+            return psum[right];
+        }
+        else{
+            return psum[right] - psum[left-1];
+        }
+    }
+}
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5.Equilibrium Point:
+
+public class EquilibriumPoint {
+    public static int Sum(){
+        int[] nums = {1,2,3};
+        int n = nums.length;
+        int[] left = new int[n];
+        int[] right = new int[n];
+        left[0] = 0;
+        right[n-1] = 0;
+        for(int i = 1; i < n; i++){
+            left[i] = left[i-1]+nums[i-1];
+        }
+        for(int j = n-2; j >= 0; j--){
+            right[j] = right[j+1]+nums[j+1];
+        }
+        for(int k = 0; k < n; k++){
+            if(left[k] == right[k]){
+                return k+1;
+            }
+        }
+        return -1;
+    }
+    public static void main(String[] args) {
+        System.out.println(Sum());
+    }
+
+}
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+6.Product of Array Except Self:
+
+class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        int n = nums.length;
+        int[] left = new int[n];
+        int[] right = new int[n];
+        int[] product = new int[n];
+        left[0] = 1;
+        right[n-1] = 1;
+        for(int i = 1; i < n; i++){
+            left[i] = left[i-1]*nums[i-1];
+        }
+        for(int j = n-2; j >= 0; j--){
+            right[j] = right[j+1]*nums[j+1];
+        }
+        for(int k = 0; k < n; k++){
+            product[k] = left[k]*right[k];
+        }
+        return product;
+        
+    }
+}
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
