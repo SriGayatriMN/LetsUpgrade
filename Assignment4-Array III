@@ -1,0 +1,297 @@
+1.Matrix Diagonal Sum
+
+class Solution {
+    public int diagonalSum(int[][] mat) {
+        int r = mat.length;
+        int c = mat[0].length;
+        int sum = 0;
+        for(int i = 0; i < r; i++){
+            for(int j = 0; j < c; j++){
+                if((i==j) || (j == r-i-1)){
+                    sum += mat[i][j];
+                }
+            }
+        }
+        return sum;
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2.Rotate Image
+
+class Solution {
+    public void rotate(int[][] matrix) {
+        int r = matrix.length;
+        int c = matrix[0].length;
+        for(int i = 0; i < r; i++){
+            for(int j = i+1; j < c; j++){
+                    int temp = matrix[i][j];
+                    matrix[i][j] = matrix[j][i];
+                    matrix[j][i] = temp;
+               
+            }
+        }
+        int colOne = 0;
+        int colTwo = c-1;
+        while(colOne < colTwo){
+            for(int k = 0; k < r; k++){
+                    int temp = matrix[k][colOne];
+                    matrix[k][colOne] = matrix[k][colTwo];
+                    matrix[k][colTwo] = temp;
+            }
+            colOne++;
+            colTwo--;
+        }
+     System.out.println(Arrays.deepToString(matrix));
+    
+        
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3.Spiral Matrix II
+
+class Solution {
+    public int[][] generateMatrix(int n) {
+        int[][] result = new int[n][n];
+        int top = 0;
+        int right = n-1;
+        int bottom = n-1;
+        int left = 0;
+        int num = 1;
+        while(left <= right && top <= bottom){
+            if(top <= bottom){
+                for(int i = left; i  <= right; i++){
+                    result[top][i] = num++;
+                }
+            }
+            top++;
+            if(left <= right){
+                for(int i = top; i  <= bottom; i++){
+                    result[i][bottom] = num++;
+                }
+            }
+            right--;
+            if(top <= bottom){
+                for(int i = right; i  >= left; i--){
+                    result[bottom][i] = num++;
+                }
+            }
+            bottom--;
+            if(left <= right){
+                for(int i = bottom; i  >= top ; i--){
+                    result[i][left] = num++;
+                }
+            }
+            left++;
+        }
+       return result;
+    }
+}
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+4.Transpose Matrix
+
+class Solution {
+    public int[][] transpose(int[][] matrix) {
+        int r = matrix.length;
+        int c = matrix[0].length;
+        int[][] transposeMatrix = new int[c][r];
+        for(int i = 0; i < c ; i++){
+            for(int j = 0; j < r; j++){
+                 transposeMatrix[i][j] = matrix[j][i];
+            }
+           
+        }
+        return transposeMatrix;
+        
+    }
+}
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5.Set Matrix Zeros
+
+class Solution {
+    public void setZeroes(int[][] matrix) {
+        int rowlen = matrix.length;
+        int collen = matrix[0].length;
+        int[] rowindex = new int[rowlen];
+        int[] colindex = new int[collen];
+        for(int i = 0; i < rowlen; i++){
+            for(int j = 0; j < collen; j++){
+                if(matrix[i][j] == 0){
+                    rowindex[i] = 1;
+                    colindex[j] = 1;
+                }
+            }
+        }
+        for(int i = 0; i < rowlen; i++){
+            for(int j = 0; j < collen; j++){
+                if(rowindex[i] == 1 || colindex[j] == 1){
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+         System.out.print(Arrays.deepToString(matrix));
+
+
+        
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+6. Diagonal Traverse II
+
+import java.util.*;
+
+public class DiagonalTraverse {
+    public static void PrintDiagonalTraverse(int row ,int col ,int[][] nums,List result) {
+        while (row >= 0) {
+            if (col < nums[row].length) {
+                result.add(nums[row][col]);
+                row--;
+                col++;
+            }
+            else {
+                row--;
+                col++;
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        int[][] nums = {{1, 2, 3, 4, 5}, {6, 7}, {8},{9,10,11},{12,13,14,15,16}};
+        int r = nums.length;
+        int c = 0;
+        for (int[] row : nums) {
+            c = Math.max(c, row.length);
+        }
+        ArrayList<Integer> result = new ArrayList<>();
+        for (int i = 0; i < r; i++) {
+            int row = Math.min(i, r - 1);
+            int col = 0;
+            PrintDiagonalTraverse(row,col,nums,result);
+
+        }
+        for (int j = 1 ; j < c; j++) {
+            int row = r-1;
+            int col = j;
+            PrintDiagonalTraverse(row,col,nums,result);
+        }
+        int[] resultArray = new int[result.size()];
+        for (int i = 0; i < result.size(); i++) {
+            resultArray[i] = result.get(i);
+        }
+        System.out.println(Arrays.toString(resultArray));
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+7.Anti Diagonals
+
+public class AntiDiagonals {
+    public static void printAntiDiagonal(int start,int end,int M,int N,int[][] arr){
+        int i = start;
+        int j = end;
+        while(i < N && j >= 0){
+            System.out.print(arr[i][j]+" ");
+            i++;
+            j--;
+        }
+        System.out.println();
+    }
+    public static void main(String[] args) {
+        int[][] arr = {{1,2,3},{4,5,6},{7,8,9}};
+        int N = arr.length;
+        int M = arr[0].length;
+        for(int i = 0; i < M; i++){
+            printAntiDiagonal(0,i,M,N,arr);
+        }
+        for(int j = 1; j < N; j++){
+            printAntiDiagonal(j,M-1,M,N,arr);
+        }
+    }
+}
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+8.You are given two matrices A & B of same size, you have to return another matrix which is the sum of A and B.Note: Matrices are of same size means the number of rows and number of columns of both matrices are equal.
+
+public class MatrixAddition {
+    public static void main(String[] args) {
+        int[][] A = {{1,2,3},{4,5,6},{7,8,9}};
+        int[][] B = {{9,8,7},{6,5,4},{3,2,1}};
+        int rlen = A.length;
+        int clen = A[0].length;
+        for(int i = 0; i < rlen; i++){
+            for(int j = 0; j < clen; j++){
+                System.out.print((A[i][j] + B[i][j])+" ");
+            }
+            System.out.println();
+        }
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+9.You are given two integer matrices A and B having same size(Both having same number of rows (N) and columns (M). You have to subtract matrix B from A and return the resultant matrix. (i.e. return the matrix A - B).
+
+import java.util.Arrays;
+
+public class MatrixSubtraction {
+    public static void main(String[] args) {
+        int[][] A = {{1,2,3},{4,5,6},{7,8,9}};
+        int[][] B = {{9,8,7},{6,5,4},{3,2,1}};
+        int rlen = A.length;
+        int clen = A[0].length;
+        int[][] C = new int[rlen][clen];
+        for(int i = 0; i < rlen; i++){
+            for(int j = 0; j < clen; j++){
+                C[i][j] = A[i][j] - B[i][j];
+            }
+        }
+        System.out.println(Arrays.deepToString(C));
+
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+10.You are given a 2D integer matrix A, return a 1D integer array containing column-wise sums of original matrix.
+
+public class ColumnWiseSum {
+    public static void main(String[] args) {
+        int[][] arr = {{1,2,3,4},{5,6,7,8},{9,2,3,4}};
+        int rlen = arr.length;
+        int clen = arr[0].length;
+        for(int i = 0; i <clen; i++){
+            int sum = 0;
+            for(int j = 0; j < rlen; j++){
+                sum += arr[j][i];
+            }
+            System.out.print(sum+" ");
+        }
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+11.You are given a 2D integer matrix A, return a 1D integer array containing row-wise sums of original matrix.
+
+public class RowWiseSum {
+    public static void main(String[] args) {
+        int[][] arr = {{1,2,3,4},{5,6,7,8},{9,2,3,4}};
+        int rlen = arr.length;
+        int clen = arr[0].length;
+        for(int i = 0; i <rlen; i++){
+            int sum = 0;
+            for(int j = 0; j < clen; j++){
+                sum += arr[i][j];
+            }
+            System.out.print(sum+" ");
+        }
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+12.You are given a N X Ninteger matrix. You have to find the sum of all the main diagonal elements of A.
+
+public class SumOfDiagonalElements {
+    public static void main(String[] args) {
+        int[][] arr = {{1,-2,-3},{-4,5,-6},{-7,-8,9}};
+        int rlen = arr.length;
+        int sum = 0;
+        for(int i = 0; i < rlen; i++){
+                sum += arr[i][i];
+        }
+        System.out.print(sum);
+    }
+}
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
