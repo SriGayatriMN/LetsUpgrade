@@ -1,0 +1,100 @@
+1.Trapping Rain Water:
+
+class Solution {
+    public int trap(int[] height) {
+        int lmax = 0;
+        int rmax = 0;
+        int left = 0;
+        int right = height.length-1;
+        int trappedWater = 0;
+        while(left < right){
+            lmax = Math.max(lmax,height[left]);
+            rmax = Math.max(rmax,height[right]);
+            trappedWater += lmax < rmax ? lmax-height[left++] : rmax-height[right--];
+
+        }
+        return trappedWater;
+    }
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2.Maximum Subarray:
+
+class Solution {
+    public int maxSubArray(int[] nums) {
+        int n = nums.length;
+        int max = Integer.MIN_VALUE;
+        int sum = 0;
+        for(int i = 0; i < n; i++){
+            sum += nums[i];
+            max = Math.max(max,sum);
+            if(sum < 0){
+                sum = 0;
+            }
+        }
+        return max;
+        
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3.Max Non Negative SubArray:
+
+import java.util.*;
+class MaxNonNegSubArray{
+    public static void maxSubArray(int[] nums) {
+        int n = nums.length;
+        int currentMax = Integer.MIN_VALUE;
+        int previousMax = Integer.MIN_VALUE;
+        int currentSum = 0;
+        List<Integer> currentList = new ArrayList<>();
+        List<Integer> previousList = new ArrayList<>();
+        for(int i = 0; i < n; i++){
+            if(nums[i] >= 0){
+                currentSum += nums[i];
+                 currentMax = Math.max(currentMax,currentSum);
+                 currentList.add(nums[i]);
+            }
+            else{
+                currentSum = 0;
+                if(currentMax > previousMax){
+                    previousMax = currentMax;
+                    previousList = new ArrayList<>(currentList);
+                }
+                else{
+                    currentMax = 0;
+                }
+                currentList.clear();
+            }
+        }
+        if(currentMax > previousMax){
+            previousList = new ArrayList<>(currentList);
+        }
+        int[] arr = new int[previousList.size()];
+        for(int i =0; i < previousList.size(); i++){
+            arr[i] = previousList.get(i);
+        }
+        System.out.println(Arrays.toString(arr));
+    }
+    public static void main(String[] args) {
+        int[] nums = {10,-1,2,3,-4,100};
+        maxSubArray(nums);
+    }
+}
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+4.Rotate Array:
+
+class Solution {
+    public void rotate(int[] nums, int k) {
+        int n = nums.length;
+        k = k % n;
+        for(int i = 0; i < k ; i++){
+            int val = nums[n-1];
+            for(int j = n-1 ; j > 0; j--){
+                nums[j] = nums[j-1];
+            }
+            nums[0] = val;
+        }
+        System.out.println(Arrays.toString(nums));
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
