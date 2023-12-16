@@ -1,0 +1,343 @@
+1. Delete the middle node of a linked list:
+
+class Solution {
+    public ListNode deleteMiddle(ListNode head) {
+        if(head == null || head.next == null){
+            return null;
+        }
+        ListNode slow = head;
+        ListNode fast = head.next.next;
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        slow.next = slow.next.next;
+        return head;
+        
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2. Reverse Nodes in k-Group:
+
+class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        ListNode temp = head;
+        int count = 0;
+        while(temp != null && count < k){
+            temp = temp.next;
+            count++;
+        }
+        if(count < k){
+            return head;
+        }
+        else{
+            ListNode curr = head;
+            ListNode prev = null;
+            ListNode next = null;
+            count = 0;
+            while(count < k){
+                next = curr.next;
+                curr.next = prev;
+                prev = curr;
+                curr = next;
+                count++;
+            }
+            head.next = reverseKGroup(next,k);
+            return prev;
+        }
+        
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3. Middle of the linked list:
+
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+       return slow;
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+4. Reverse LinkedList II:
+
+class Solution {
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        if(head == null || head.next == null || left == right){
+            return head;
+        }
+        ListNode temp1 = head;
+        ListNode temp2 = head;
+        ListNode temp3 = null;
+        ListNode temp4 = null;
+        int c1 = 1;
+        while(c1 < left){
+            temp3 = temp1;
+            temp1 = temp1.next;
+            c1++;
+        }
+        ListNode ptr1 = temp1;
+        int c2 = 1;
+        while(c2 < right){
+            temp2 = temp2.next;
+            temp4 = temp2.next;
+            c2++;
+        }
+        ListNode ptr2 = temp2;
+        ListNode curr = ptr1;
+        ListNode prev = null;
+        ListNode nextptr = ptr1;
+        while(nextptr != null && nextptr != temp4){
+            nextptr = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nextptr;
+        }
+            if(left == 1 && ptr2.next == null){
+                return ptr2;
+            }
+            else if(left == 1 && ptr2.next != null){
+                ptr1.next = temp4;
+                return ptr2;
+            }
+            else if(left != 1 && ptr2.next == null){
+                temp3.next = ptr2;
+                return head;
+            }
+            else{
+                ptr1.next = temp4;
+                temp3.next = ptr2;
+                return head;
+            }
+
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5. Reverse LinkedList:
+
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        ListNode curr = head;
+        ListNode prev = null;
+        ListNode nextptr = null;
+        while(curr != null){
+            nextptr = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nextptr;
+        }
+        return prev;
+        
+    }
+}
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+6. Design LinkedList:
+
+class ListNode{
+    int val;
+    ListNode next = null;
+    public ListNode(int val){
+        this.val = val;
+    }
+}
+class MyLinkedList {
+    int size = 0;
+    ListNode head = null;
+    public MyLinkedList() {
+        head = null;
+    }
+    
+    public int get(int index) {
+        if(index < 0 || index >= size){
+            return -1;
+        }
+        ListNode temp = head;
+        for(int i = 0; i < index; i++){
+            temp = temp.next;
+        }
+        return temp != null ? temp.val : 0;
+        
+    }
+    
+    public void addAtHead(int val) {
+        ListNode n1 = new ListNode(val);
+        n1.next = head;
+        head = n1;
+        size++;
+        
+    }
+    
+    public void addAtTail(int val) {
+        if(head == null){
+            head = new ListNode(val);
+        }
+        else{
+            ListNode temp = head;
+            while(temp.next != null){
+                temp = temp.next;
+            }
+            temp.next = new ListNode(val);
+        }
+        size++;
+        
+    }
+    
+    public void addAtIndex(int index, int val) {
+        if(index == size){
+            addAtTail(val);
+        }
+        else if(index > size){
+            return;
+        }
+        else{
+            if(head == null){
+                head = new ListNode(val);
+            }
+            else if(index == 0){
+                addAtHead(val);
+            }
+            else{
+                ListNode prev = null;
+                ListNode curr = head;
+                ListNode n2 = new ListNode(val);
+                for(int i = 0; i < index; i++){
+                    prev = curr;
+                    curr = curr.next;
+                }
+                n2.next = curr;
+                if(prev != null){
+                    prev.next = n2;
+                }
+                size++;
+            }
+        }
+    }
+    
+    public void deleteAtIndex(int index) {
+        if(index >= size || index < 0){
+            return;
+        }
+        ListNode prev = null;
+        ListNode curr = head;
+        while(index > 0){
+            prev = curr;
+            curr = curr.next;
+            index--;
+        }
+        if(prev != null){
+            prev.next = curr.next;
+        }
+        else{
+            head = head.next;
+        }
+        size--;
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+7. Remove Nth Node from End Of List:
+
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if(head == null || (head.next == null && n == 1)){
+            return null;
+        }
+        int count1 = 1;
+        ListNode temp1 = head;
+        while(temp1.next != null){
+            temp1 = temp1.next;
+            count1++;
+        }
+        int k = count1 - n;
+        if(k == 0){
+            head = head.next;
+            return head;
+        }
+        int count2 = 1;
+        ListNode temp2 = head;
+        while(count2 < k){
+            temp2 = temp2.next;
+            count2++;
+        }
+        temp2.next = temp2.next.next;
+        return head;
+
+        
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+8. Remove Duplicates from Sorted List:
+
+class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        if(head == null || head.next == null){
+            return head;
+        }
+        ListNode prev = head;
+        ListNode curr = head.next;
+        while(curr.next!= null){
+            if(prev.val == curr.val){
+                if(curr.next != null){
+                    curr = curr.next;
+                    prev.next = curr;
+                }
+                else{
+                    prev.next = null;
+                }
+            }
+            else{
+                prev = curr;
+                curr = curr.next;
+            }
+        }
+        if(prev.val == curr.val){
+            prev.next = null;
+        }
+        return head;
+        
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+9. Copy List with Random Pointer:
+
+class Solution {
+    public Node copyRandomList(Node head) {
+        if(head == null){
+            return null;
+        }
+        Node curr = head;
+        while(curr != null){
+            Node newnode = new Node(curr.val);
+            newnode.next = curr.next;
+            curr.next = newnode;
+            curr = curr.next.next;
+        }
+        curr = head;
+        while(curr != null){
+            if(curr.random != null){
+                curr.next.random = curr.random.next;
+            }
+            curr = curr.next.next;
+        }
+        Node current = head;
+        Node newhead = head.next;
+        Node newcurr = head.next;
+        while(newcurr.next != null){
+            current.next = current.next.next;
+            newcurr.next = newcurr.next.next;
+            current = current.next;
+            newcurr = newcurr.next;
+        }
+        current.next = null;
+        
+        return newhead;
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
