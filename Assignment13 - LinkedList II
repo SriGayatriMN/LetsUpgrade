@@ -1,0 +1,202 @@
+1. LinkedList Cycle II:
+
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        if(head == null || head.next == null){
+            return null;
+        }
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+            if(slow == fast){
+                break;
+            }
+
+        }
+        if(fast == null || fast.next == null){
+            return null;
+        }
+        else{
+            fast = head;
+            while(slow != fast){
+                fast = fast.next;
+                slow = slow.next;
+            }
+            return slow;
+
+        }
+        
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2. Middle of the LinkedList:
+
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+       return slow;
+       
+        
+    }
+}
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3. Palindrome LinkedList:
+
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        ListNode dummy = new ListNode(-1);
+        ListNode newList = dummy;
+        ListNode temp = head;
+        while(temp != null){
+            ListNode node = new ListNode(temp.val);
+            node.next = null;
+            dummy.next = node;
+            dummy = dummy.next;
+            temp = temp.next;
+        }
+        newList = newList.next;
+        ListNode prev = null;
+        ListNode curr = head;
+        ListNode nextptr = null;
+        while(curr != null){
+            nextptr = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nextptr;
+        }
+        ListNode reversedList = prev;
+        while(newList != null && reversedList != null){
+            if(newList.val != reversedList.val){
+               return false;
+            }
+            else{
+                newList = newList.next;
+                reversedList = reversedList.next;
+            }
+        }
+       return true; 
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+4. Merge Two Sorted Lists:
+
+class Solution {
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        if(list1 == null || list2 == null){
+            if(list2 != null){
+                return list2;
+            }
+            else{
+                return list1;
+            }
+           
+        }
+        else{
+            ListNode newList1 = list1;
+            ListNode newList2 = list2;
+            ListNode result = new ListNode(-1);
+            ListNode head = result;
+            while(newList1 != null && newList2 != null){
+                if(newList1.val <= newList2.val){
+                    result.next = new ListNode(newList1.val);
+                    result = result.next;
+                    newList1 = newList1.next;
+                }
+                else{
+                    result.next = new ListNode(newList2.val);
+                    result = result.next;
+                    newList2 = newList2.next;
+                }
+
+            }
+            if(newList1 == null){
+                while(newList2 != null){
+                    result.next = new ListNode(newList2.val);
+                    result = result.next;
+                    newList2 = newList2.next;
+                }
+
+            }
+            else if(newList2 == null){
+                while(newList1 != null){
+                    result.next = new ListNode(newList1.val);
+                    result = result.next;
+                    newList1 = newList1.next;
+                }
+            }
+            return head.next;
+        }
+       
+    }
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5. Sort a List:
+
+class Solution {
+    public ListNode sortList(ListNode head) {
+        if (head==null || head.next==null) {
+            return head;
+        }
+        ListNode mid = Mid(head);
+        ListNode head2 = mid.next;
+        mid.next = null;
+        ListNode t1 = sortList(head);
+        ListNode t2 = sortList(head2);
+        return merge(t1,t2); 
+    }
+    public ListNode Mid(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast.next!=null && fast.next.next!=null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+    public ListNode merge(ListNode head1, ListNode head2) {
+        ListNode head;
+        if (head1==null) {
+            return head2;
+        }
+        if (head2==null) {
+            return head1;
+        }
+        if (head1.val<head2.val) {
+            head = head1;
+            head1 = head1.next;
+        }
+        else {
+            head = head2;
+            head2 = head2.next;
+        }
+        ListNode t = head;
+        while (head1!=null && head2!=null) {
+            if (head1.val<head2.val) {
+                t.next = head1;
+                head1 = head1.next;
+                t = t.next;
+            }
+            else {
+                t.next = head2;
+                head2 = head2.next;
+                t = t.next;
+            }
+        }
+        if (head1==null) {
+            t.next = head2;
+        }
+        if (head2==null) {
+            t.next = head1;
+        }
+        return head;
+    }
+}
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
