@@ -1,0 +1,129 @@
+1.Implement Queue using stacks:
+
+class MyQueue {
+    Stack<Integer> stack1 = new Stack();
+    Stack<Integer> stack2 = new Stack();
+    public MyQueue() {
+        
+    }
+    
+    public void push(int x) {
+        stack1.push(x);
+    }
+    
+    public int pop() {
+        if(stack2.isEmpty()){
+            while(!stack1.isEmpty()){
+                stack2.push(stack1.pop());
+            }
+        }
+        return stack2.pop();
+        
+    }
+    
+    public int peek() {
+        if(stack2.isEmpty()){
+           while(!stack1.isEmpty()){
+                stack2.push(stack1.pop());
+            }
+        }
+        return stack2.peek();
+    }
+    
+    public boolean empty() {
+        return stack1.isEmpty() && stack2.isEmpty();
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2. Design Circular queue:
+
+class MyCircularQueue {
+    int[] arr;
+    int front;
+    int rear;
+    int size;
+    int capacity;
+    public MyCircularQueue(int k) {
+        size = 0;
+        capacity = k;
+        arr = new int[k];
+        front = -1;
+        rear = -1;
+    }
+    
+    public boolean enQueue(int value) {
+        if(size == capacity){
+            return false;
+        }
+        else{
+            rear = (rear + 1) % capacity;
+            arr[rear] = value;
+            size++;
+        }
+        return true;
+    }
+    
+    public boolean deQueue() {
+        if(size == 0){
+            return false;
+        }
+        else{
+            front = (front + 1) % capacity;
+            size--;
+        }
+        return true;
+    }
+    
+    public int Front() {
+        if(size == 0){
+            return -1;
+        }
+        return arr[(front+1)%capacity];
+    }
+    
+    public int Rear() {
+        if(size == 0){
+            return -1;
+        }
+        return arr[rear];
+    }
+    
+    public boolean isEmpty() {
+        return size == 0;
+    }
+    
+    public boolean isFull() {
+        return size == capacity;
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3. Queue reversal:
+
+import java.util.*;
+
+public class Reversequeue {
+    public static void main(String[] args) {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(4);
+        queue.add(3);
+        queue.add(2);
+        queue.add(1);
+        rev(queue);
+    }
+    public static void rev(Queue<Integer> queue){
+
+        Stack<Integer> stack = new Stack<>();
+
+        while(!queue.isEmpty()) {
+            stack.push(queue.poll());
+        }
+        while(!stack.isEmpty()) {
+            queue.add(stack.pop());
+        }
+        while(!queue.isEmpty()){
+            System.out.print(queue.poll()+" ");
+        }
+
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
