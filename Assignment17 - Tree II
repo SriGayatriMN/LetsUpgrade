@@ -1,0 +1,328 @@
+1. Vertical Order Traversal of Binary Tree:
+
+import java.util.*;
+
+class Node {
+        int val;
+        Node left;
+        Node right;
+
+        Node() {
+        }
+
+        Node(int val) {
+        this.val = val;
+        this.left = null;
+        this.right = null;
+        }
+}
+class Pair {
+    Node node;
+    int dist;
+
+    Pair(Node node, int dist) {
+        this.node = node;
+        this.dist = dist;
+    }
+}
+public class VerticalLevelOrderTraversal {
+    public static void main(String[] args) {
+        Node head = new Node(1);
+        Node n1 = new Node(2);
+        Node n2 = new Node(3);
+        Node n3 = new Node(4);
+        Node n4 = new Node(5);
+        head.left = n1;
+        head.right = n2;
+        n1.left = n3;
+        n1.right = n4;
+        vertical(head);
+    }
+
+    public static void vertical(Node root){
+        HashMap<Integer, List<Integer>> map = new HashMap<>();
+        Queue<Pair> queue = new LinkedList<>();
+        queue.add(new Pair(root,0));
+        while(!queue.isEmpty()){
+            Pair front = queue.poll();
+            Node n = front.node;
+            int dist = front.dist;
+            if(!map.containsKey(dist)){
+                map.put(dist,new ArrayList<>());
+            }
+            map.get(dist).add(n.val);
+            if(n.left != null){
+                queue.add(new Pair(n.left,dist-1));
+            }
+            if(n.right != null){
+                queue.add(new Pair(n.right,dist+1));
+            }
+        }
+        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
+        int minKey = Collections.min(map.keySet());
+        int maxKey = Collections.max(map.keySet());
+        for (int i = minKey; i <= maxKey; i++) {
+            if (map.containsKey(i)) {
+                result.add(new ArrayList<>(map.get(i)));
+            }
+        }
+
+        System.out.println(result);
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+2. Binary Tree Right Side View:
+
+class Solution {
+    int levelTracker = 0;
+    public void right(TreeNode root,int level,List<Integer> list){
+        if(root == null){
+            return;
+        }
+        if(levelTracker < level){
+            list.add(root.val);
+            levelTracker = level;
+        }
+        right(root.right,level+1,list);
+        right(root.left,level+1,list);
+    }
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        right(root,1,list);
+        return list;
+        
+    }
+
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+3. Left View Of Binary Tree:
+
+class Solution {
+    int levelTracker = 0;
+    public void left(TreeNode root,int level,List<Integer> list){
+        if(root == null){
+            return;
+        }
+        if(levelTracker < level){
+            list.add(root.val);
+            levelTracker = level;
+        }
+        left(root.left,level+1,list);
+	left(root.right,level+1,list);
+    }
+    public List<Integer> leftSideView(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        left(root,1,list);
+        return list;
+        
+    }
+
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+4. Top View Of Binary Tree:
+
+import java.util.*;
+class Node {
+    int val;
+    Node left;
+    Node right;
+
+    Node() {
+    }
+
+    Node(int val) {
+        this.val = val;
+        this.left = null;
+        this.right = null;
+    }
+}
+class Pair {
+    Node node;
+    int dist;
+
+    Pair(Node node, int dist) {
+        this.node = node;
+        this.dist = dist;
+    }
+}
+public class BinaryTreeTopView {
+        public static void main(String[] args) {
+            Node head = new Node(10);
+            Node n1 = new Node(20);
+            Node n2 = new Node(30);
+            Node n3 = new Node(40);
+            Node n4 = new Node(60);
+            Node n5 = new Node(90);
+            Node n6 = new Node(100);
+            head.left = n1;
+            head.right = n2;
+            n1.left = n3;
+            n1.right = n4;
+            n2.left = n5;
+            n2.right = n6;
+            vertical(head);
+        }
+
+        public static void vertical(Node root){
+            HashMap<Integer, List<Integer>> map = new HashMap<>();
+            Queue<Pair> queue = new LinkedList<>();
+            queue.add(new Pair(root,0));
+            while(!queue.isEmpty()){
+                Pair front = queue.poll();
+                Node n = front.node;
+                int dist = front.dist;
+                if(!map.containsKey(dist)){
+                    map.put(dist,new ArrayList<>());
+                }
+                map.get(dist).add(n.val);
+                if(n.left != null){
+                    queue.add(new Pair(n.left,dist-1));
+                }
+                if(n.right != null){
+                    queue.add(new Pair(n.right,dist+1));
+                }
+            }
+            ArrayList<Integer> result = new ArrayList<>();
+            int minKey = Collections.min(map.keySet());
+            int maxKey = Collections.max(map.keySet());
+            for (int i = minKey; i <= maxKey; i++) {
+                if (map.containsKey(i)) {
+                    result.add(map.get(i).get(0));
+                }
+            }
+            for(int value : result) {
+                System.out.print(value + " ");
+            }
+        }
+
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+5. Bottom View Of Binary Tree:
+
+import java.util.*;
+class Node {
+    int val;
+    Node left;
+    Node right;
+
+    Node() {
+    }
+
+    Node(int val) {
+        this.val = val;
+        this.left = null;
+        this.right = null;
+    }
+}
+class Pair {
+    Node node;
+    int dist;
+
+    Pair(Node node, int dist) {
+        this.node = node;
+        this.dist = dist;
+    }
+}
+public class BinaryTreeBottomView {
+        public static void main(String[] args) {
+            Node head = new Node(10);
+            Node n1 = new Node(20);
+            Node n2 = new Node(30);
+            Node n3 = new Node(40);
+            Node n4 = new Node(60);
+            head.left = n1;
+            head.right = n2;
+            n1.left = n3;
+            n1.right = n4;
+            vertical(head);
+        }
+
+        public static void vertical(Node root){
+            HashMap<Integer, List<Integer>> map = new HashMap<>();
+            Queue<Pair> queue = new LinkedList<>();
+            queue.add(new Pair(root,0));
+            while(!queue.isEmpty()){
+                Pair front = queue.poll();
+                Node n = front.node;
+                int dist = front.dist;
+                if(!map.containsKey(dist)){
+                    map.put(dist,new ArrayList<>());
+                }
+                map.get(dist).add(n.val);
+                if(n.left != null){
+                    queue.add(new Pair(n.left,dist-1));
+                }
+                if(n.right != null){
+                    queue.add(new Pair(n.right,dist+1));
+                }
+            }
+            ArrayList<Integer> result = new ArrayList<>();
+            int minKey = Collections.min(map.keySet());
+            int maxKey = Collections.max(map.keySet());
+            for (int i = minKey; i <= maxKey; i++) {
+                if (map.containsKey(i)) {
+                    result.add(map.get(i).get(map.get(i).size()-1));
+                }
+            }
+            for(int value : result) {
+                System.out.print(value + " ");
+            }
+        }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+6. Construct Binary Tree from Preorder and Inorder Traversal:
+
+class Solution {
+    private int preorderIdx = 0;
+    public TreeNode construct(int[] preorder,HashMap<Integer,Integer> map,int left,int right){
+        if(left > right){
+            return null;
+        }
+        int pval = preorder[preorderIdx];
+        int inorderIdx = map.get(pval);
+        TreeNode root = new TreeNode(pval);
+        preorderIdx++;
+        root.left = construct(preorder,map,left,inorderIdx-1);
+        root.right = construct(preorder,map,inorderIdx+1,right);
+        return root;
+    }
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        int len = inorder.length;
+        HashMap<Integer,Integer> map = new HashMap<>();
+        for(int i = 0 ; i < len; i++){
+            map.put(inorder[i],i);
+        }
+        return construct(preorder,map,0,len-1);
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+7. Construct Binary Tree from Inorder and Postorder Traversal:
+
+class Solution {
+    private int postorderIdx;
+    private TreeNode construct(int[] postorder,HashMap<Integer,Integer> map, int left, int right){
+        if(left>right) return null;
+        int pval = postorder[postorderIdx];
+        int inorderIdx = map.get(pval);
+
+        TreeNode root = new TreeNode(pval);
+        postorderIdx--;
+        root.right = construct(postorder,map, inorderIdx+1, right);
+        root.left = construct(postorder,map, left, inorderIdx-1);
+        return root;
+        
+    }
+    public TreeNode buildTree(int[] inorder, int[] postorder) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int len = inorder.length;
+        for(int i=0;i<len;i++){
+            map.put(inorder[i],i);
+        }
+        postorderIdx = len - 1;
+        return construct(postorder, map, 0, len-1);
+    }
+    
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
