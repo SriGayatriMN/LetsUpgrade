@@ -1,0 +1,250 @@
+1. Recover Binary Search Tree:
+
+class Solution {
+    TreeNode first = null;
+    TreeNode second = null;
+    TreeNode prev = null;
+    public void Inorder(TreeNode curr){
+        if(curr == null){
+            return;
+        }
+        Inorder(curr.left);
+        if(prev != null && prev.val > curr.val){
+            if(first == null){
+                first = prev;
+            }
+            second = curr;
+        }
+        prev = curr;
+        Inorder(curr.right);
+    }
+    public void recoverTree(TreeNode root) {
+        Inorder(root);
+        int temp = first.val;
+        first.val = second.val;
+        second.val = temp;
+
+    }
+}
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2. Lowest Common Ancestor Of Binary Tree:
+
+class Solution {
+     public Boolean Search(TreeNode root,TreeNode target,List<TreeNode> path){
+        if(root == null){
+            return false;
+        }
+        if(root.val == target.val){
+            path.add(root);
+            return true;
+        }
+        if(Search(root.left,target,path) || Search(root.right,target,path)){
+            path.add(root);
+            return true;
+        }
+        return false;
+    }
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        List<TreeNode> path1 = new ArrayList<>();
+        List<TreeNode> path2 = new ArrayList<>();
+        Search(root,p,path1);
+        Search(root,q,path2);
+        Collections.reverse(path1);
+        Collections.reverse(path2);
+        int i = 0;
+        for(; i < path1.size() && i < path2.size(); i++){
+            if(path1.get(i) != path2.get(i)){
+                break;
+            }
+        }
+        return path1.get(i-1);
+       
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3. Diameter of a Binary Tree:
+
+class Solution {
+    int max = 0;
+    public int diameter(TreeNode root){
+        if(root == null){
+            return 0;
+        }
+        int left = diameter(root.left);
+        int right = diameter(root.right);
+        max = Math.max(max,left+right);
+        return Math.max(left,right) + 1;
+        
+    }
+    public int diameterOfBinaryTree(TreeNode root) {
+        diameter(root);
+        return max;
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+4. Common Nodes in BST:
+
+import java.util.*;
+class Node {
+    int val;
+    Node left;
+    Node right;
+
+    Node() {
+    }
+
+    Node(int val) {
+        this.val = val;
+        this.left = null;
+        this.right = null;
+    }
+}
+public class FindCommonNodesInBSTs {
+    public static void Inorder(Node root,HashMap<Integer,Integer> map){
+        if(root == null){
+            return;
+        }
+        Inorder(root.left,map);
+        map.put(root.val,root.val);
+        Inorder(root.right,map);
+    }
+    public static void InorderList(Node root,HashMap<Integer,Integer> map,List<Integer> list){
+        if(root == null){
+            return;
+        }
+        InorderList(root.left,map,list);
+        if(map.containsKey(root.val)){
+            list.add(root.val);
+        }
+        InorderList(root.right,map,list);
+    }
+    public static void CommonNodes(Node head1,Node head2){
+        HashMap<Integer,Integer> map = new HashMap<>();
+        List<Integer> list = new ArrayList<>();
+        Inorder(head1,map);
+        InorderList(head2,map,list);
+        System.out.println(list);
+
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5. Same Tree:
+
+class Solution {
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        if(p == null && q == null){
+            return true;
+        }
+        else if(p == null && q != null || p != null && q == null){
+            return false;
+        }
+        else{
+            if(p.val == q.val){
+                return isSameTree(p.left,q.left) && isSameTree(p.right,q.right);
+            }
+        }
+        return false;
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+6. Kth Smallest Element in a BST:
+
+class Solution {
+    public void Inorder(TreeNode root,List<Integer> list){
+        if(root == null){
+            return;
+        }
+        Inorder(root.left,list);
+        list.add(root.val);
+        Inorder(root.right,list);
+    }
+    public int kthSmallest(TreeNode root, int k) {
+        List<Integer> list = new ArrayList<>();
+        Inorder(root,list);
+        return list.get(k-1);
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+7. Path to Given Node:
+
+import java.util.*;
+class Node {
+    int val;
+    Node left;
+    Node right;
+
+    Node() {
+    }
+
+    Node(int val) {
+        this.val = val;
+        this.left = null;
+        this.right = null;
+    }
+}
+public class PathToGivenNode {
+    public static void main(String[] args) {
+        Node head = new Node(1);
+        Node n1 = new Node(2);
+        Node n2 = new Node(3);
+        Node n3 = new Node(4);
+        Node n4 = new Node(5);
+        Node n5 = new Node(6);
+        Node n6 = new Node(7);
+        head.left = n1;
+        head.right = n2;
+        n1.left = n3;
+        n1.right = n4;
+        n2.left = n5;
+        n2.right = n6;
+        List<Integer> path = new ArrayList<>();
+        int target = 6;
+        Search(head,target,path);
+        Collections.reverse(path);
+        System.out.println(path);
+    }
+    public static Boolean Search(Node root,int target,List<Integer> path){
+        if(root == null){
+            return false;
+        }
+        if(root.val == target){
+            path.add(root.val);
+            return true;
+        }
+        if(Search(root.left,target,path) || Search(root.right,target,path)){
+            path.add(root.val);
+            return true;
+        }
+        return false;
+    }
+
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+8. Validate Binary Search Tree:
+
+class Solution {
+    public void Inorder(TreeNode root,List<Integer> list){
+        if(root == null){
+            return;
+        }
+        Inorder(root.left,list);
+        list.add(root.val);
+        Inorder(root.right,list);
+
+    }
+    public boolean isValidBST(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        Inorder(root,list);
+        for(int i = 0; i < list.size()-1; i++){
+            if(list.get(i) < list.get(i+1)){
+                continue;
+            }
+            else{
+                return false;
+            }
+        }
+        return true;
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
