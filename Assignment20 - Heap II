@@ -1,0 +1,99 @@
+public class MaxHeap {
+    List<Integer> heap = new ArrayList<>();
+
+    int parent(int i) {
+        return (i - 1) / 2;
+    }
+
+    int left(int i) {
+        return (2 * i + 1);
+    }
+
+    int right(int i) {
+        return (2 * i + 2);
+    }
+
+    MaxHeap() {
+
+    }
+
+    void insertKey(int k) {
+
+        int i = heap.size();
+        heap.add(k);
+        while (i != 0 && heap.get(parent(i)) < heap.get(i)) {
+            int temp = heap.get(i);
+            heap.set(i, heap.get(parent(i)));
+            heap.set(parent(i), temp);
+            i = parent(i);
+        }
+    }
+
+    void heapify(List<Integer> heap, int i) {
+        if(right(i) < heap.size()){
+            while (right(i) < heap.size()) {
+                int dummy = Math.max(heap.get(i), heap.get(left(i)));
+                int val = Math.max(dummy, heap.get(right(i)));
+                if (val == heap.get(i)) {
+                    return;
+                } else if (val == heap.get(left(i))) {
+                    int temp = heap.get(i);
+                    heap.set(i, heap.get(left(i)));
+                    heap.set(left(i), temp);
+                    i = left(i);
+
+                } else {
+                    int temp = heap.get(i);
+                    heap.set(i, heap.get(right(i)));
+                    heap.set(right(i), temp);
+                    i = right(i);
+                }
+            }
+        }
+        else if(left(i) < heap.size()){
+            while (left(i) < heap.size()) {
+                int val = Math.max(heap.get(i), heap.get(left(i)));
+                if (val == heap.get(i)) {
+                    return;
+                }
+                else if (val == heap.get(left(i))) {
+                    int temp = heap.get(i);
+                    heap.set(i, heap.get(left(i)));
+                    heap.set(left(i), temp);
+                    i = left(i);
+                }
+            }
+        }
+    }
+
+    void buildHeap(List<Integer> heap) {
+        for (int i = heap.size() / 2 - 1; i >= 0; i--) {
+            heapify(heap, i);
+        }
+    }
+
+    int extractMax(int k) {
+            for (int i = 0; i < k - 1; i++) {
+                int temp = heap.get(0);
+                heap.set(0, heap.get(heap.size() - 1));
+                heap.set(heap.size() - 1, temp);
+                heap.remove(heap.size() - 1);
+                heapify(heap, 0);
+            }
+        return heap.get(0);
+    }
+
+}
+
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        int len = nums.length;
+        MaxHeap maxHeap = new MaxHeap();
+        for(int i = 0; i < len; i++){
+            maxHeap.insertKey(nums[i]);
+        }
+        return maxHeap.extractMax(k);
+
+    }
+}
+
