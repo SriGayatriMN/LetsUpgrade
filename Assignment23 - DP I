@@ -1,0 +1,84 @@
+1. Climbing Stairs:
+
+class Solution {
+    public int climbStairs(int n) {
+        if(n==1 || n==2){
+            return n;
+        }
+        int a = 1;
+        int b = 2;
+        int c = 0;
+        for(int i = 3; i <= n; i++){
+            c = a+b;
+            a = b;
+            b = c;
+        }
+        return c;
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2. Fibonacci Number:
+
+class Solution {
+    public int fib(int n) {
+        if(n== 0|| n==1){
+            return n;
+        }
+        return fib(n-1) + fib(n-2);
+    }
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3. Perfect Squares:
+
+class Solution {
+    public int perfectSquare(int n,int[] dp){
+        if(n < 4){
+            return n;
+        }
+        if(dp[n] != -1){
+            return dp[n];
+        }
+        int ans = Integer.MAX_VALUE;
+        for(int x = 1; x*x <= n; x++){
+            ans = Math.min(ans,perfectSquare(n-((int)Math.pow(x,2)),dp));
+        }
+        dp[n] = 1 + ans;
+        return dp[n];
+    }
+    public int numSquares(int n) {
+        int[] dp = new int[n+1];
+        for(int i = 0; i <= n; i++){
+            dp[i] = -1;
+        }
+        return perfectSquare(n,dp);
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+4. Decode Ways:
+
+class Solution {
+    public int numDecodings(String s) {
+        int n = s.length();
+        if (n == 0 || s.charAt(0) == '0') return 0;
+
+        int[] dp = new int[n + 1];
+        dp[0] = 1;
+        dp[1] = 1;
+
+        for (int i = 2; i <= n; i++) {
+            int oneDigit = Integer.parseInt(s.substring(i - 1, i));
+            int twoDigits = Integer.parseInt(s.substring(i - 2, i));
+
+            if (oneDigit >= 1 && oneDigit <= 9) {
+                dp[i] += dp[i - 1];
+            }
+
+            if (twoDigits >= 10 && twoDigits <= 26) {
+                dp[i] += dp[i - 2];
+            }
+        }
+         return dp[n];
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
