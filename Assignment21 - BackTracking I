@@ -1,1 +1,181 @@
+1. Subsets I:
 
+class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> list = new ArrayList<>();
+        int i = 0;
+        backtrack(list, new ArrayList<>(), nums, i);
+        return list;
+    }
+
+    public static void backtrack(List<List<Integer>> list, List<Integer> tempList, int[] nums, int start) {
+        list.add(new ArrayList<>(tempList));
+        for (int i = start; i < nums.length; i++) {
+            tempList.add(nums[i]);
+            backtrack(list, tempList, nums, i + 1);
+            tempList.remove(tempList.size() - 1);
+        }
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2. Permutations I:
+
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        generatePermutations(result,list,nums);
+        return result;
+    }
+    public static void generatePermutations(List<List<Integer>> result,List<Integer> list,int[] nums){
+        if(list.size() == nums.length){
+            result.add(new ArrayList<>(list));
+            return;
+        }a
+        else{
+            for(int i = 0 ; i < nums.length; i++){
+                if(list.contains(nums[i])){
+                    continue;
+                }
+                list.add(nums[i]);
+                generatePermutations(result,list,nums);
+                list.remove(list.size() - 1);
+            }
+        }
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3. Permutations II:
+
+class Solution {
+    public List<List<Integer>> permuteUnique(int[] nums) {
+        Arrays.sort(nums);
+        boolean[] used = new boolean[nums.length];
+        List<List<Integer>> list = new ArrayList<>();
+        List<Integer> tempList = new ArrayList<>();
+        backtrack(list,tempList,nums,used);
+        return list;
+    }
+    public static void backtrack(List<List<Integer>> list,List<Integer> tempList,int[] nums,boolean[] used) {
+        if(tempList.size() == nums.length){
+            list.add(new ArrayList<>(tempList));
+        }
+        else{
+            for(int i = 0; i < nums.length; i++){
+                if(used[i] || (i > 0 && nums[i] == nums[i-1] && !used[i-1])){
+                    continue;
+                }
+                used[i] = true;
+                tempList.add(nums[i]);
+                backtrack(list,tempList,nums,used);
+                used[i] = false;
+                tempList.remove(tempList.size()-1);
+            }
+        }
+    }
+
+
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+4. Subsets II:
+
+class Solution {
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+         List<List<Integer>> list = new ArrayList<>();
+         Arrays.sort(nums);
+        int i = 0;
+        backtrack(list, new ArrayList<>(), nums, i);
+        return list;
+    }
+    public static void backtrack(List<List<Integer>> list, List<Integer> tempList, int[] nums, int start) {
+        list.add(new ArrayList<>(tempList));
+        for (int i = start; i < nums.length; i++) {
+            if(i > start && nums[i-1] == nums[i]){
+                continue;
+            }
+            tempList.add(nums[i]);
+            backtrack(list, tempList, nums, i + 1);
+            tempList.remove(tempList.size() - 1);
+        }
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5. Remove Invalid Parentheses:
+
+class Solution {
+    public boolean isValid(String s){
+            int count = 0;
+            for(int j = 0; j < s.length(); j++){
+                if(s.charAt(j) == '('){
+                    count++;
+                }
+                else if(s.charAt(j) == ')'){
+                    count--;
+                }
+                if(count < 0){
+                    return false;
+                }
+            }
+            return count == 0;
+    }
+    public List<String> removeInvalidParentheses(String s) {
+        List<String> result = new ArrayList<>();
+        Queue<String> queue = new LinkedList<>();
+        Set<String> set = new HashSet<>();
+        queue.add(s);
+        set.add(s);
+        boolean found = false;
+        while(!queue.isEmpty()){
+            s = queue.poll();
+            if(isValid(s)){
+                result.add(s);
+                found = true;
+            }
+            if(found){
+                continue;
+            }
+            for(int i= 0; i < s.length(); i++){
+                if(s.charAt(i) == '(' || s.charAt(i) == ')'){
+                    String str = s.substring(0,i) + s.substring(i+1);
+                    if(!set.contains(str)){
+                        queue.add(str);
+                        set.add(str);
+                    }
+                }
+                
+            }
+        }
+        
+        return result;
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+6. Letter Combinations of a Phone Number:
+
+class Solution {
+    public List<String> letterCombinations(String digits) {
+         if (digits.isEmpty()) 
+            return new ArrayList<String>();
+
+        String[] phoneAlphabets = {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        List<String> result = new ArrayList<>();
+        backtrack("", digits, phoneAlphabets, result);
+        return result;
+    }
+
+      public void backtrack(String combination, String next_digits, String[] phoneAlphabets, List<String> result) {
+        if (next_digits.isEmpty()) {
+            result.add(combination);
+        } else {
+            String letters = phoneAlphabets[next_digits.charAt(0) - '2'];
+            for(char letter : letters.toCharArray()) {
+                backtrack(combination + letter, next_digits.substring(1), phoneAlphabets, result);
+            }
+        }
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+       
