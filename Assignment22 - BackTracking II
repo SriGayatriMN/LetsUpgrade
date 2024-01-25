@@ -1,1 +1,239 @@
+1. NQueens:
+
+class Solution {
+    public List<List<String>> solveNQueens(int n) {
+        boolean[] diag = new boolean[2*n];
+        boolean[] antidiag = new boolean[2*n];
+        boolean[] colcheck = new boolean[n];
+        char[][] matrix = new char[n][n];
+        List<List<String>> list = new ArrayList<>();
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                matrix[i][j] = '.';
+            }
+        }
+        NQueens(n,0,diag,antidiag,colcheck,matrix,list);
+        return list;
+
+    }
+    public static void NQueens(int n,int row,boolean[] diag,boolean[] antidiag,boolean[] colcheck,char[][] matrix,List<List<String>> list){
+        if(row == n){
+            print(matrix,list);
+        }
+        for(int col = 0; col < n; col++){
+            if(!colcheck[col] && !diag[row + col] && !antidiag[n+row -col] ){
+                matrix[row][col] = 'Q';
+                colcheck[col] = true;
+                diag[row + col] = true;
+                antidiag[n+row-col] = true;
+
+                NQueens(n,row+1,diag,antidiag,colcheck,matrix,list);
+
+                matrix[row][col] = '.';
+                colcheck[col] = false;
+                diag[row + col] = false;
+                antidiag[n+row-col] = false;
+            }
+        }
+    }
+    public static void print(char[][] matrix,List<List<String>> list){
+        List<String> tempList = new ArrayList<>();
+        for(char[] row : matrix){
+            String str = "";
+            for(char col : row){
+                str += col;
+            }
+            tempList.add(str);
+        }
+        list.add(tempList);
+
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2. Sudoku Solver:
+
+class Solution {
+    public void solveSudoku(char[][] board) {
+        List<List<Character>> list = new ArrayList<>();
+        if(toSolveSudoku(board)){
+            print(board,list);
+        }
+        System.out.println(list);
+    }
+    public static boolean toSolveSudoku(char[][] board){
+        int[] emptycell = findEmptyCell(board);
+        if(emptycell == null){
+            return true;
+        }
+        int row = emptycell[0];
+        int col = emptycell[1];
+
+        for(char ch = '1'; ch <= '9'; ch++){
+            if(isValidNum(row,col,board,ch)){
+                board[row][col] = ch;
+                if(toSolveSudoku(board)){
+                    return true;
+                };
+                board[row][col] = '.';
+            }
+
+
+        }
+        return false;
+    }
+    public static int[] findEmptyCell(char[][] board){
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                if(board[i][j] == '.'){
+                    return new int[]{i,j};
+                }
+            }
+        }
+        return null;
+    }
+    public static boolean isValidNum(int row,int col,char[][] board,char ch){
+        for(int k = 0; k < 9; k++){
+            if(board[row][k] == ch || board[k][col] == ch){
+                return false;
+            }
+        }
+        int s_row = 3 * (row/3);
+        int s_col = 3 * (col/3);
+        for(int i = 0 ; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                if(board[s_row+i][s_col+j] == ch){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public static void print(char[][] board,List<List<Character>> list){
+        for(char[] row : board){
+            List<Character> tempList = new ArrayList<>();
+            for(char col : row){
+                tempList.add(col);
+            }
+            list.add(tempList);
+        }
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3. Rat in the Maze:
+
+import java.util.*;
+
+public class RatInMaze {
+
+        public static void main (String[] args) {
+            int n = 4;
+            int[][] matrix = {
+                    {0, 0, 0, 0},
+                    {1, 1, 0, 1},
+                    {0, 1, 0, 0},
+                    {1, 0, 1, 0}
+            };
+            int count = check(0, 0, matrix, n, n);
+            System.out.println(count);
+        }
+
+        public static int check(int i,int j,int[][] matrix,int n,int m){
+            if(i == n-1 && j == m-1){
+                return 1;
+            }
+            if(i < 0 || j < 0|| i > n-1 || j > n-1 ){
+                return 0;
+            }
+            if(matrix[i][j] == 1 || matrix[i][j] == 2){
+                return 0;
+            }
+            matrix[i][j] = 2;
+            int ways = 0;
+            ways+= check(i, j+1, matrix, n, m);
+            ways+= check(i, j-1, matrix, n, m);
+            ways+= check(i+1, j, matrix, n, m);
+            ways+= check(i-1, j, matrix, n, m);
+            matrix[i][j] = 0;
+            return ways;
+
+        }
+
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+4. Combination Sum:
+
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        Set<List<Integer>> set = new HashSet<>();
+        List<Integer> tempList = new ArrayList<>();
+        int sum = 0;
+        backtrack(tempList,set,candidates,sum,target);
+        List<List<Integer>> list = new ArrayList<>(set);
+        return list;
+    }
+    public static void backtrack(List<Integer> tempList,Set<List<Integer>> set,int[] candidates,int sum,int target) {
+        if(sum > target){
+            return;
+        }
+        else if(sum == target){
+            int[] intArray = tempList.stream().mapToInt(Integer::intValue).toArray();
+            Arrays.sort(intArray);
+            List<Integer> integerList = new ArrayList<>(Arrays.asList(toIntegerArray(intArray)));
+            set.add(integerList);
+
+        }
+        else{
+            for(int i = 0; i < candidates.length; i++){
+                tempList.add(candidates[i]);
+                backtrack(tempList,set,candidates,sum+candidates[i],target);
+                tempList.remove(tempList.size()-1);
+
+            }
+        }
+    }
+    private static Integer[] toIntegerArray(int[] intArray) {
+        Integer[] integerArray = new Integer[intArray.length];
+        for (int i = 0; i < intArray.length; i++) {
+            integerArray[i] = intArray[i];
+        }
+        return integerArray;
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5. Combination Sum II:
+
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        Arrays.sort(candidates);
+        List<List<Integer>> list = new ArrayList<>();
+        List<Integer> tempList = new ArrayList<>();
+        int sum = 0;
+        backtrack(tempList,list,candidates,sum,target,0);
+        return list;
+    }
+    public static void backtrack(List<Integer> tempList,List<List<Integer>> list,int[] candidates,int sum,int target,int start) {
+        if(sum > target){
+            return;
+        }
+        else if(sum == target){
+            list.add(new ArrayList<>(tempList));
+
+        }
+        else{
+            for(int i = start; i < candidates.length; i++){
+                if( i > start && candidates[i] == candidates[i-1]){
+                        continue;
+                }
+                tempList.add(candidates[i]);
+                backtrack(tempList,list,candidates,sum+candidates[i],target,i+1);
+                tempList.remove(tempList.size()-1);
+
+            }
+        }
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
