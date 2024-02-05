@@ -1,0 +1,69 @@
+1. Implementing Dijkstra's Algorithm:
+
+import java.util.*;
+
+public class DijkstrasAlgorithm {
+    public static class Edge{
+        int destination;
+        int weight;
+        Edge(int destination,int weight){
+            this.destination = destination;
+            this.weight = weight;
+        }
+    }
+    public static class Vertex implements Comparable<Vertex>{
+        int vertex;
+        int distance;
+        Vertex(int vertex,int distance){
+            this.vertex = vertex;
+            this.distance = distance;
+        }
+        @Override
+        public int compareTo(Vertex other) {
+            return Integer.compare(this.distance, other.distance);
+        }
+    }
+    public static void dijkstra(List<List<Edge>> graph,int source){
+        int size = graph.size();
+        int[] distance = new int[size];
+        Arrays.fill(distance,Integer.MAX_VALUE);
+        distance[source] = 0;
+        PriorityQueue<Vertex> minHeap = new PriorityQueue<>();
+        minHeap.add(new Vertex(source,0));
+        while(!minHeap.isEmpty()){
+            Vertex current = minHeap.poll();
+            for(Edge neighbour: graph.get(current.vertex)){
+                int newdestination = current.distance + neighbour.weight;
+                if(newdestination < distance[neighbour.destination]){
+                    distance[neighbour.destination] = newdestination;
+                    minHeap.add(new Vertex(neighbour.destination,newdestination));
+                }
+            }
+        }
+        for(int i = 0; i < size; i++){
+            System.out.print(distance[i]+" ");
+        }
+
+    }
+    public static void main(String[] args) {
+        List<List<Edge>> graph = new ArrayList<>();
+        int v = 3;
+        for(int i = 0; i < v; i ++){
+            graph.add(new ArrayList<>());
+        }
+        graph.get(0).add(new Edge(1,1));
+        graph.get(0).add(new Edge(2,6));
+        graph.get(1).add(new Edge(2,3));
+        graph.get(1).add(new Edge(0,1));
+        graph.get(2).add(new Edge(1,3));
+        graph.get(2).add(new Edge(0,6));
+
+
+        int source = 2;
+        dijkstra(graph,source);
+
+    }
+
+}
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
