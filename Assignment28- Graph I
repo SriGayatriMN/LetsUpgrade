@@ -1,0 +1,156 @@
+1. BFS Traversal of a graph:
+
+import java.util.*;
+public class BFSOfGraph {
+
+    public static void main(String[] args) {
+        int V = 5;
+        List<List<Integer>> graph = new ArrayList<>();
+        for(int i = 0; i < V; i++){
+            graph.add(new ArrayList<>());
+        }
+        graph.get(0).add(1);
+        graph.get(0).add(2);
+        graph.get(0).add(3);
+        graph.get(2).add(4);
+        BFS(graph);
+
+    }
+    public static void BFS(List<List<Integer>> graph){
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(0);
+        while(!queue.isEmpty()){
+            int val = queue.poll();
+            for(int j = 0; j < graph.get(val).size(); j++){
+                queue.add(graph.get(val).get(j));
+            }
+            System.out.print(val+" ");
+        }
+
+    }
+
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2. Print Adjacency List:
+
+import java.util.*;
+
+public class PrintAdjacencyList {
+    public static void main(String[] args) {
+        int V = 5;
+        int E = 7;
+        int[][] edges = {{0,1},{0,4},{4,1},{4,3},{1,3},{1,2},{3,2}};
+        printList(edges,V,E);
+    }
+    public static void printList(int[][] edges,int V,int E){
+        List<List<Integer>> graph = new ArrayList<>();
+        for(int i = 0; i < V; i++){
+            graph.add(new ArrayList<>());
+        }
+        for(int j = 0; j < E; j++){
+            graph.get(edges[j][0]).add(edges[j][1]);
+            graph.get(edges[j][1]).add(edges[j][0]);
+        }
+        for(int k = 0; k < V; k++){
+           Collections.sort(graph.get(k));
+        }
+        System.out.println(graph);
+    }
+
+}
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3.Number Of Provinces:
+
+public class NumberOfProvinces {
+    public static void main(String[] args) {
+        int[][] graph = {{1,1},{1,1}};
+        int V = graph.length;
+        boolean[] visited = new boolean[V];
+        System.out.println(Provinces(graph,V,visited));
+    }
+    public static int Provinces(int[][] graph,int V,boolean[] visited){
+        int count = 0;
+        for(int i = 0; i < V; i++){
+            if(!visited[i]){
+                dfs(i,graph,V,visited);
+                count++;
+            }
+
+        }
+        return count;
+    }
+    public static void dfs(int i, int[][] graph,int V,boolean[] visited){
+        visited[i] = true;
+        for(int j = 0; j < V; j++){
+            if(!visited[j] && graph[i][j] == 1){
+                dfs(j,graph,V,visited);
+            }
+        }
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+4. Count the number of Complete Components:
+
+class Solution {
+          public static int countComponents(int n,int[][] edges){
+            int[] parent = new int[n];
+            for(int i = 0; i < n; i++){
+                parent[i] = i;
+            }
+            for(int[] edge: edges){
+                mergeComponent(parent,edge[0],edge[1]);
+            }
+            Set<Integer>[] set = new HashSet[n];
+            for(int k = 0; k < n; k++){
+                int root = findEachParent(parent,k);
+                if(set[root] == null){
+                    set[root] = new HashSet<>();
+                }
+                set[root].add(k);
+            }
+            int count = 0;
+            for(Set<Integer> eachSet : set){
+                if(eachSet != null && formCompletion(eachSet,edges)){
+                    count ++;
+                }
+            }
+            return count;
+
+        }
+        public static boolean formCompletion(Set<Integer> eachSet,int[][] edges){
+            for(int v1: eachSet){
+                for(int v2 : eachSet){
+                    if(v1 == v2){
+                        continue;
+                    }
+                    if(!formEdges(v1,v2,edges)){
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        public static boolean formEdges(int v1,int v2,int[][] edges){
+            for(int[] edge: edges){
+                if(edge[0] == v1 && edge[1] == v2 || edge[0] == v2 && edge[1] == v1){
+                    return true;
+                }
+            }
+            return false;
+        }
+        public static int findEachParent(int[] parent,int i){
+            if(parent[i] != i){
+                parent[i] = findEachParent(parent,parent[i]);
+            }
+            return parent[i];
+        }
+        public static void mergeComponent(int[] parent,int x,int y){
+            int rootX = findEachParent(parent,x);
+            int rootY = findEachParent(parent,y);
+            if(rootX != rootY){
+                parent[rootX] = rootY;
+            }
+        }
+    
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
