@@ -1,1 +1,39 @@
 
+DFS of Graph:
+
+import java.util.*;
+
+public class DFSOfGraph {
+    public static void main(String[] args) {
+        List<List<Integer>> graph = new ArrayList<>();
+        int vertex = 5;
+        for(int i = 0 ; i < vertex; i++){
+            graph.add(new ArrayList<>());
+        }
+        graph.get(0).add(2);
+        graph.get(0).add(3);
+        graph.get(0).add(1);
+        graph.get(1).add(0);
+        graph.get(2).add(0);
+        graph.get(2).add(4);
+        graph.get(3).add(0);
+        graph.get(4).add(2);
+        int len = graph.size();
+        boolean[] visited  = new boolean[len];
+        dfsGraph(graph,visited,len,0);
+    }
+    public static void dfsGraph(List<List<Integer>> graph,boolean[] visited,int len,int i){
+            if(!visited[i]){
+                visited[i] = true;
+                System.out.print(i+" ");
+                for(int j = 0; j < graph.get(i).size(); j++) {
+                    int val = graph.get(i).get(j);
+                    dfsGraph(graph, visited, len, val);
+                }
+            }
+            else{
+                return;
+            }
+    }
+
+}
